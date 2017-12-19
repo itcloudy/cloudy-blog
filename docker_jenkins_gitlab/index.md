@@ -1,4 +1,4 @@
-# docker+jenkins+gitla #
+# docker+jenkins+gitlab #
 在没有说明的情况下，系统的信息为:64位系统,版本为ubuntu12.04
 
 ### [Ubuntu下Java JDK安装](ubuntu-java-jdk.md)
@@ -15,7 +15,7 @@
 
 
 
-##参考资料
+## 参考资料
 [gitlab利用webhook实现push代码后jenkins自动构建之Linux服务器](http://www.jianshu.com/p/4eac43872b40)
 
 [Jenkins的授权和访问控制](https://www.cnblogs.com/yangxia-test/p/4368778.html)
