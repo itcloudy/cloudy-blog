@@ -66,7 +66,7 @@ To generate this message, Docker took the following steps:
 To try something more ambitious, you can run an Ubuntu container with:
  $ docker run -it ubuntu bash
 
-Share images, automate workflows, and more with a free Docker ID:
+Share images/docker_jenkins_gitlab, automate workflows, and more with a free Docker ID:
  https://cloud.docker.com/
 
 For more examples and ideas, visit:
