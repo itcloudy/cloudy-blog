@@ -16,6 +16,8 @@ $ ssh-keygen -t rsa
 	* gitlab plugin
 	* gitlab webhook plugin
 	* Maven Integration plugin
+	* Xcode integration 
+	* Gradle plugin 
 * 设置jenkins的jdk和maven
 	* jdk设置
 		![jenkins中java jdk设置](images/jenkins-jdk.png)
@@ -51,7 +53,7 @@ $ ssh-keygen -t rsa
 ### gitlab设置
 ![](images/gitlab-webhook.png)
 ![](images/gitlab-webhook-setting.png)
-###test报错403错误时Hook
+### test报错403错误时Hook
  executed successfully but returned HTTP 403，我们须要进入jenkins
 
  系统设置-Configure Global Security中，关闭（去掉勾选： 防止跨站点请求伪造），然后在点击gitlab
