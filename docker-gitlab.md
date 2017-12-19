@@ -17,14 +17,29 @@ centurylink/gitlab                           This image uses the image from same
 <pre><code>
 docker pull twang2218/gitlab-ce-zh
 </code></pre>
-## Dockerfile文件构建镜像
+##使用gitlab/gitlab-ce镜像
+* 运行gitlab(后面中文版的使用了gitlab文件夹，此处使用gitlab2)
+<pre><code>
+docker run --detach  --hostname 192.168.21.141 \
+	--publish 9044:443 --publish 9003:80 --publish 9023:22 \
+	--volume /srv/gitlab2/config:/etc/gitlab  \
+	--volume /srv/gitlab2/logs:/var/log/gitlab\ 
+	--volume /srv/gitlab2/data:/var/opt/gitlab \ 
+	--name gitlab --restart always  gitlab/gitlab-ce
+</code></pre>
+* 浏览器进入服务
+ 
+在浏览器中输入：宿机ip/域名：9002既可
+##使用中文版镜像
+本人部署启动之后发现部分页面按钮无效，js报错，新手学习docker就不跟踪原因了
+### Dockerfile文件构建镜像
 * 文件地址: [https://github.com/twang2218/gitlab-ce-zh](https://github.com/twang2218/gitlab-ce-zh)
 * 构建镜像
 <pre><code>
 $ docker build -t gitlab_zh . 
 </code></pre>
 
-## docker-compose.yml方式
+### docker-compose.yml方式
 * 建立一个 docker-compose.yml,输入下面的内容
 <pre><code>
 version: '2'
@@ -66,7 +81,12 @@ volumes:
 
 * 运行gitlab 
 <pre><code>
-docker run --detach  --hostname 192.168.21.141 --publish 9043:443 --publish 9002:80 --publish 9022:22 --name gitlab-zh --restart always --volume /srv/gitlab/config:/etc/gitlab  --volume /srv/gitlab/logs:/var/log/gitlab --volume /srv/gitlab/data:/var/opt/gitlab gitlab_zh
+docker run --detach  --hostname 192.168.21.141 \
+	--publish 9043:443 --publish 9002:80 --publish 9022:22 \
+	--volume /srv/gitlab/config:/etc/gitlab \
+	--volume /srv/gitlab/logs:/var/log/gitlab \
+	--volume /srv/gitlab/data:/var/opt/gitlab \
+	--name gitlab-zh --restart always gitlab_zh
 </code></pre>
 * 浏览器进入服务
  

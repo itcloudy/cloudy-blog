@@ -35,11 +35,29 @@ $ ssh-keygen -t rsa
 	![](images/jenkins-gitlab-api-token-test-error.png)
 	连接成功
 	![](images/jenkins-gitlab-api-token-test-success.png)
-##jenkins创建Job
+## jenkins创建Job
 * 创建一个maven的job
 	！[创建一个maven的job](images/maven-job-create.png)
 * 设置git
-	* ![git设置](images/maven-job-credentials-add.png)
-	* ![gitlab中的jenkins用户和密码](images/maven-job-credentials-gitlab-info.png)
+	![git设置](images/maven-job-credentials-add.png)
+	![gitlab中的jenkins用户和密码](images/maven-job-credentials-gitlab-info.png)
 * pom设置
 	![pom设置](images/maven-job-pom.png)
+
+## webhook设置
+### jenkins设置(token值可随便设置)
+![](images/jenkins-job-trigger-setting.png)
+![](images/jenkins-webhook-global-settings.png)
+### gitlab设置
+![](images/gitlab-webhook.png)
+![](images/gitlab-webhook-setting.png)
+###test报错403错误时Hook
+ executed successfully but returned HTTP 403，我们须要进入jenkins
+
+ 系统设置-Configure Global Security中，关闭（去掉勾选： 防止跨站点请求伪造），然后在点击gitlab
+ webhooks test OK 返回201 成功，查看jenkins 项目自动构建啦
+
+### 设置仅仅是在push代码时触发构建，不区分分支，如果区分分支jenkins中设置如下：
+![](images/jenkins-webhook-some-branch.png)
+
+
