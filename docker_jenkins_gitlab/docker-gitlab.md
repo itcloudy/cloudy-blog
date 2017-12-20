@@ -93,3 +93,23 @@ docker run --detach  --hostname 192.168.21.141 \
 在浏览器中输入：宿机ip/域名：9002既可
 
 ps:若宿机映射到gitlab的端口非80，在gitlab中创建的工程信息中的git地址需要加上端口号。
+
+## gitlab操作
+### 创建用户
+![](images/docker_jenkins_gitlab/gitlab_user_create.png)
+### 创建群组
+![](images/docker_jenkins_gitlab/gitlab_group_create.png)
+### 创建项目
+![](images/docker_jenkins_gitlab/gitlab_project_create.png)
+### 项目添加成员
+成员的role permission应为master(未测试多用户，将代码推到gitlab空项目中时需要为master权限)
+![](images/docker_jenkins_gitlab/gitlab_project_master.png)
+###　原有代码上传
+未使用80端口需要在地址中指定端口
+
+* 添加源: ` git remote add gitlab http://192.168.21.141:9003/game-of-life/game-of-life.git`
+* 推送代码： ` git push -u gitlab --all`
+* 推送标签：` git push -u gitlab --tag`
+
+
+
