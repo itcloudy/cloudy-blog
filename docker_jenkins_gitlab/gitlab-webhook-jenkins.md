@@ -1,4 +1,4 @@
-# Gitlab利用webhook实现push代码后触发Jenkins自动构建
+# Gitlab利用webhook实现push代码后触发Jenkins自动构建 #
 
 ##宿机上操作
 * 生成ssh key 

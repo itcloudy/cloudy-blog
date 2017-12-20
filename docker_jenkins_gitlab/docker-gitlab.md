@@ -1,4 +1,4 @@
-#Docker安装gitlab
+# Docker安装gitlab #
 
 ## docker仓库拉取镜像
 * 搜索gitlab镜像,选择starts高的版本，此处综合考虑使用汉化的社区版

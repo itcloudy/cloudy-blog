@@ -1,4 +1,4 @@
-# Ubuntu下Maven安装
+# Ubuntu下Maven安装 #
 
 下载maven：[maven下载地址](http://maven.apache.org/download.cgi)，此处采用的是二进制文件bin.tar.gz文件
 

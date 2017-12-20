@@ -11,6 +11,7 @@
 ### [Docker安装gitlab](docker-gitlab.md)
 ### [Docker安装jenkins](docker-jenkins.md)
 ### [gitlab利用webhook实现jenkins自动构建](gitlab-webhook-jenkins.md)
+### [jenkins判断文件夹内容是否变化触发构建](jenkins_job_trigger_file_md5.md)
 ### [终极](all-compose.md)
 
 
@@ -29,3 +30,5 @@
 [搭建GitLab+Jenkins持续集成环境图文教程 ](http://blog.csdn.net/ruangong1203/article/details/73065410)
 
 [Jenkins进阶-Gitlab使用Webhook实现Push代码自动部署(3)](https://www.cnblogs.com/mengyu/p/6414494.html)
+
+[Jenkins入门总结](http://www.cnblogs.com/itech/archive/2011/11/23/2260009.html)

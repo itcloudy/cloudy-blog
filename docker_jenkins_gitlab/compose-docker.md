@@ -1,4 +1,4 @@
-# Compose-docker安装
+# Compose-docker安装 #
 * 二进制安装
 <pre><code>
 $ sudo curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose

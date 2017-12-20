@@ -1,4 +1,4 @@
-# Ubuntu下Java JDK安装
+# Ubuntu下Java JDK安装 #
 
 下载JDK [JDK下载地址](http://www.oracle.com/technetwork/java/javase/downloads/index.html),linux 64位
 
