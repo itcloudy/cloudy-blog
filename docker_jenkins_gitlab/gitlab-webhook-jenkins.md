@@ -44,7 +44,7 @@ $ ssh-keygen -t rsa
 	![git设置](images/docker_jenkins_gitlab/maven-job-credentials-add.png)
 	![gitlab中的jenkins用户和密码](images/docker_jenkins_gitlab/maven-job-credentials-gitlab-info.png)
 * pom设置
-	![pom设置](images/docker_jenkins_gitlab/maven-job-pom.png)
+	![pom设置](../images/docker_jenkins_gitlab/maven-job-pom.png)
 
 ## webhook设置
 ### jenkins设置(token值可随便设置)
