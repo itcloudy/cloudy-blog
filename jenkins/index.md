@@ -8,11 +8,11 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 
 ## Pipeline 学习
 [Pipeline学习:Pipeline入门](jenkins_learning/pipeline/Pipeline入门.md)
-[Pipeline学习:Jenkinsfile使用](jenkins_learning/pipeline/Jenkinsfile使用.md)
-
 
 ## Jenkins使用和进阶
+[Docker下Jenkins部署](../docker_jenkins_gitlab/docker-jenkins.md)
 
+[Docker下Gitlab部署](../docker_jenkins_gitlab/docker-gitlab.md)
  
 
 
