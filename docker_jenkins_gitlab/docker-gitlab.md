@@ -20,12 +20,12 @@ docker pull twang2218/gitlab-ce-zh
 ##使用gitlab/gitlab-ce镜像
 * 运行gitlab(后面中文版的使用了gitlab文件夹，此处使用gitlab2)
 <pre><code>
-docker run --detach  --hostname 192.168.21.141 \
-	--publish 9044:443 --publish 9003:80 --publish 9023:22 \
-	--volume /srv/gitlab2/config:/etc/gitlab  \
-	--volume /srv/gitlab2/logs:/var/log/gitlab\ 
-	--volume /srv/gitlab2/data:/var/opt/gitlab \ 
-	--name gitlab --restart always  gitlab/gitlab-ce
+docker run -d --hostname 192.168.21.141 \ 
+  -p 9044:443 -p 9003:80 -p 9023:22 \ 
+  -v /srv/docker_gitlab/config:/etc/gitlab \ 
+  -v /srv/docker_gitlab/logs:/var/log/gitlab \ 
+  -v /srv/docker_gitlab/data:/var/opt/gitlab \ 
+  --name gitlab --restart always gitlab/gitlab-ce
 </code></pre>
 * 浏览器进入服务
  

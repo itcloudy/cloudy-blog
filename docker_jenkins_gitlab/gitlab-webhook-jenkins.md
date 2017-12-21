@@ -1,10 +1,6 @@
 # Gitlab利用webhook实现push代码后触发Jenkins自动构建 #
 
-##宿机上操作
-* 生成ssh key 
-<pre><code>
-$ ssh-keygen -t rsa
-</code></pre>
+ >
 ## Jenkins上的操作
 ### 安装gitlab hook plugin
 通常，jenkins在项目配置时是可以配置远程构建触发器，设置好jenkins的回调url后就可以让jenkins进行自动构建。这就需要先下载Gitlab Hook Plugin 插件。登陆Jenkins，分别点击"系统管理"->"插件管理"->"可选插件"，选择Gitlab Hook Plugin
@@ -19,6 +15,7 @@ $ ssh-keygen -t rsa
 	* Xcode integration 
 	* Gradle plugin 
 	* Blue Ocean
+	* Publish Over SSH
 * 设置jenkins的jdk和maven
 	* jdk设置
 		![jenkins中java jdk设置](images/docker_jenkins_gitlab/jenkins-jdk.png)
@@ -40,12 +37,13 @@ $ ssh-keygen -t rsa
 	![](images/docker_jenkins_gitlab/jenkins-gitlab-api-token-test-success.png)
 ## jenkins创建Job
 * 创建一个maven的job
+
 	！[创建一个maven的job](images/docker_jenkins_gitlab/maven-job-create.png)
 * 设置git
 	![git设置](images/docker_jenkins_gitlab/maven-job-credentials-add.png)
 	![gitlab中的jenkins用户和密码](images/docker_jenkins_gitlab/maven-job-credentials-gitlab-info.png)
 * pom设置
-	![pom设置](../images/docker_jenkins_gitlab/maven-job-pom.png)
+	![pom设置](images/docker_jenkins_gitlab/maven-job-pom.png)
 
 ## webhook设置
 ### jenkins设置(token值可随便设置)
