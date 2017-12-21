@@ -62,6 +62,8 @@
  系统设置-Configure Global Security中，关闭（去掉勾选： 防止跨站点请求伪造），然后在点击gitlab
  webhooks test OK 返回201 成功，查看jenkins 项目自动构建啦
   ![](images/docker_jenkins_gitlab/gitlab-webhook-trigger-success.png)
+触发jenkins的job
+![](images/docker_jenkins_gitlab/gitlab-webhook-trigger-jenkins-job.png)
 
 ### 设置仅仅是在push代码时触发构建，不区分分支，如果区分分支jenkins中设置如下：
 ![](images/docker_jenkins_gitlab/jenkins-webhook-some-branch.png)
