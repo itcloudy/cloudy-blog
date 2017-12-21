@@ -21,16 +21,16 @@ node {
 }
 </code></pre>
 * 使用Pipeline Syntax
-![](images/jenkins_pipeline/git_pipeline_syntax.png)
+  ![](images/jenkins_pipeline/git_pipeline_syntax.png)
 * 创建job
-![](images/jenkins_pipeline/jenkins_pipeline_create.png)
+  ![](images/jenkins_pipeline/jenkins_pipeline_create.png)
 * Jenkins中pipeline-test中Pipeline设置
-![](images/jenkins_pipeline/jenkins_pipeline_setting.png)
+  ![](images/jenkins_pipeline/jenkins_pipeline_setting.png) 
 * 构建(暂时忽略错误)
-![](images/jenkins_pipeline/jenkins_pipeline_build_error.png)
+  ![](images/jenkins_pipeline/jenkins_pipeline_build_error.png)
 * 查看文件结构,说明代码已经被拉取过来
 截图经剪切处理，删除其他job
-![](images/jenkins_pipeline/jenkins_pipeline_file_tree.png)
+  ![](images/jenkins_pipeline/jenkins_pipeline_file_tree.png) 
 
 * 修改脚本(实际中修改过多次)
 <pre><code>

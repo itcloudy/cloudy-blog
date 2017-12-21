@@ -44,3 +44,15 @@ Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permiss
 
 * 登录jenkins
 	* 浏览器进入jenkins服务地址，宿机端口为:9001
+
+* 插件安装
+列出的插件会在blog中其他的地方使用到
+	* gitlab plugin
+	* gitlab webhook plugin
+	* Maven Integration plugin
+	* Xcode integration 
+	* Gradle plugin 
+	* Blue Ocean
+	* Publish Over SSH
+	* CloudBees Docker Build and Publish plugin
+	* File Operations Plugin
