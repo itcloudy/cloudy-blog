@@ -6,5 +6,8 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 
 [Jenkins权威指南:Chapter2](jenkins_learning/Chapter2.md)
 
-## Pipeline 
+## Jenkins使用和进阶
+### Pipeline 
+Pipeline工作流程图
+![](jenkins_using/images/pipeline/pipeline-flow.png)
 [Jenkins Pipeline](jenkins_using/pipeline.md)
