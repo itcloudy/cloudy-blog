@@ -4,19 +4,16 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 ## Jenkins权威指南学习  
 
 
-[Jenkins权威指南:Chapter2](jenkins_learning/jenkins-the-definitive-guide/Chapter2.md)
+* [Jenkins权威指南:Chapter2](jenkins_learning/jenkins-the-definitive-guide/Chapter2.md)
 
 ## Pipeline 学习
-[Pipeline学习:Pipeline入门](jenkins_learning/pipeline/Pipeline入门.md)
+* [Pipeline学习:Pipeline入门](jenkins_learning/pipeline/Pipeline入门.md)
 
 ## Jenkins使用和进阶
-[Docker下Jenkins部署](../docker_jenkins_gitlab/docker-jenkins.md)
-
-[Docker下Gitlab部署](../docker_jenkins_gitlab/docker-gitlab.md)
-
-[Jenkins + Pipeline 构建流水线发布](jenkins_using/jenkins_pipeline_flow.md)
-
-[Jenkins + Pipeline 分Job实现SpringCloud微服务CI](jenkins_using/jenkins_pipeline_cloud_mult_job.md)
+* [Docker下Jenkins部署](../docker_jenkins_gitlab/docker-jenkins.md)
+* [Docker下Gitlab部署](../docker_jenkins_gitlab/docker-gitlab.md)
+* [Jenkins + Pipeline 构建流水线发布](jenkins_using/jenkins_pipeline_flow.md)
+* [Jenkins + Pipeline 分Job实现SpringCloud微服务CI](jenkins_using/jenkins_pipeline_cloud_mult_job.md)
  
 
 
