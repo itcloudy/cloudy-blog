@@ -106,10 +106,18 @@ ps:若宿机映射到gitlab的端口非80，在gitlab中创建的工程信息中
 ![](images/docker_jenkins_gitlab/gitlab_project_master.png)
 ###　原有代码上传
 未使用80端口需要在地址中指定端口
+![](images/docker_jenkins_gitlab/gitlab_project_code_push.png)
 
-* 添加源: ` git remote add gitlab http://192.168.21.141:9003/game-of-life/game-of-life.git`
-* 推送代码： ` git push -u gitlab --all`
-* 推送标签：` git push -u gitlab --tag`
+ 此处使用的操作为:
+<pre><code>
+$ git remote add gitlab http://192.168.21.141:9003/artist-server/artist-server.git
+$ git push -u gitlab  --all
+$ git push -u gitlab --tags
+</code></pre>
 
+ps:推送代码时需要输入gitlab的用户名和密码，只需要使用该项目成员为master的用户名和密码，如前面在gitlab中创建的用户jenkins,密码为：jenkinsjenkins
+
+### 推送结果
+![](images/docker_jenkins_gitlab/gitlab_code_push_result.png)
 
 

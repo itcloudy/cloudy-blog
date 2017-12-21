@@ -21,7 +21,7 @@
 		![jenkins中java jdk设置](images/docker_jenkins_gitlab/jenkins-jdk.png)
 	* maven设置
 		![jenkins中maven设置](images/docker_jenkins_gitlab/jenkins-maven.png)
-* 配置GitLab插件,获得accessToken(创建一个用户jenkins，密码为jenkinspwd)
+* 配置GitLab插件,获得accessToken(创建一个用户jenkins，密码为jenkinsjenkins)
 	![Access Token获得](images/docker_jenkins_gitlab/gitlab-access-token.png)
 * jenkins中gitlab配置
 	![jenkins中gitlab设置](images/docker_jenkins_gitlab/jenkins-gitlab.png)
@@ -38,10 +38,13 @@
 ## jenkins创建Job
 * 创建一个maven的job
 
-	！[创建一个maven的job](images/docker_jenkins_gitlab/maven-job-create.png)
+	![创建一个maven的job](images/docker_jenkins_gitlab/maven-job-create.png)
 * 设置git
 	![git设置](images/docker_jenkins_gitlab/maven-job-credentials-add.png)
+	此处的用户名和密码为jenkins/jenkinsjenkins
 	![gitlab中的jenkins用户和密码](images/docker_jenkins_gitlab/maven-job-credentials-gitlab-info.png)
+	选择后不出现红色告警提示
+	![git设置](images/docker_jenkins_gitlab/maven-job-credentials-selected.png)
 * pom设置
 	![pom设置](images/docker_jenkins_gitlab/maven-job-pom.png)
 
@@ -54,11 +57,12 @@
 ![](images/docker_jenkins_gitlab/gitlab-webhook-setting.png)
 ### test报错403错误时Hook
  executed successfully but returned HTTP 403，我们须要进入jenkins
+ ![](images/docker_jenkins_gitlab/gitlab-webhook-trigger-error.png)
 
  系统设置-Configure Global Security中，关闭（去掉勾选： 防止跨站点请求伪造），然后在点击gitlab
  webhooks test OK 返回201 成功，查看jenkins 项目自动构建啦
+  ![](images/docker_jenkins_gitlab/gitlab-webhook-trigger-success.png)
 
 ### 设置仅仅是在push代码时触发构建，不区分分支，如果区分分支jenkins中设置如下：
 ![](images/docker_jenkins_gitlab/jenkins-webhook-some-branch.png)
-
 
