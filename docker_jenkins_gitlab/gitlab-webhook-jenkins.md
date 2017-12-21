@@ -16,6 +16,7 @@
 	* Gradle plugin 
 	* Blue Ocean
 	* Publish Over SSH
+	* CloudBees Docker Build and Publish plugin
 * 设置jenkins的jdk和maven
 	* jdk设置
 		![jenkins中java jdk设置](images/docker_jenkins_gitlab/jenkins-jdk.png)

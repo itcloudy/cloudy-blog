@@ -2,9 +2,9 @@
 # Jenkins + Pipeline 构建流水线发布
 git仓库采用的是gitlab
 * gitlab创建项目(需要将gitlab用户jenkins加入到项目中，角色为master)
-![](images/jenkins+pipeline/gitlab_project_jenkinsfile_create.png)
+![](images/jenkins_pipeline/gitlab_project_jenkinsfile_create.png)
 * 本地创建代码库
-![](images/jenkins+pipeline/local_jenkinsfile_repo.png)
+![](images/jenkins_pipeline/local_jenkinsfile_repo.png)
 * 创建文件`Jenkinsfile`,输入下面的内容
 <pre><code>
 node {
@@ -20,17 +20,17 @@ node {
   
 }
 </code></pre>
-* 生成脚本
-![](images/jenkins+pipeline/git_pipeline_syntax.png)
+* 使用Pipeline Syntax
+![](images/jenkins_pipeline/git_pipeline_syntax.png)
 * 创建job
-![](images/jenkins+pipeline/jenkins_pipeline_create.png)
+![](images/jenkins_pipeline/jenkins_pipeline_create.png)
 * Jenkins中pipeline-test中Pipeline设置
-![](images/jenkins+pipeline/jenkins_pipeline_setting.png)
+![](images/jenkins_pipeline/jenkins_pipeline_setting.png)
 * 构建(暂时忽略错误)
-![](images/jenkins+pipeline/jenkins_pipeline_build_error.png)
+![](images/jenkins_pipeline/jenkins_pipeline_build_error.png)
 * 查看文件结构,说明代码已经被拉取过来
 截图经剪切处理，删除其他job
-![](images/jenkins+pipeline/jenkins_pipeline_file_tree.png)
+![](images/jenkins_pipeline/jenkins_pipeline_file_tree.png)
 
 * 修改脚本(实际中修改过多次)
 <pre><code>
@@ -51,5 +51,5 @@ node {
 </code></pre>
 
 * 再次构建，成功
-![](images/jenkins+pipeline/jenkins_pipeline_build_success.png)
+![](images/jenkins_pipeline/jenkins_pipeline_build_success.png)
 

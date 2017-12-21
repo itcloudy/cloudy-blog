@@ -15,6 +15,8 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 [Docker下Gitlab部署](../docker_jenkins_gitlab/docker-gitlab.md)
 
 [Jenkins + Pipeline 构建流水线发布](jenkins_using/jenkins_pipeline_flow.md)
+
+[Jenkins + Pipeline实现SpringCloud微服务CI](jenkins_using/jenkins_pipeline_cloud.md)
  
 
 
@@ -30,3 +32,7 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 * [Jenkins入门总结](http://www.cnblogs.com/itech/archive/2011/11/23/2260009.html)
 * [Jenkins官方文档w3cschool翻译](https://www.w3cschool.cn/jenkins/)
 * [易百Jenkins教程](http://www.yiibai.com/jenkins/)
+* [使用 Jenkins Pipeline 为接入 LeakCanary 的软件做持续集成](http://ntflc.com/2016/08/23/Jenkins-Pipeline-for-Leakcanary/)
+* [持续交付实践-pipeline 使用之 MultiBranch Pipeline](https://www.cnblogs.com/cay83/p/7542442.html)
+* [Jenkins中配置多项目SCM](http://blog.csdn.net/itfootball/article/details/45061093)
+* [国外大厨用Docker和Jenkins演示微服务的持续交付](http://www.aboutyun.com/thread-21481-1-1.html)
