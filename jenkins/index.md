@@ -13,6 +13,8 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 [Docker下Jenkins部署](../docker_jenkins_gitlab/docker-jenkins.md)
 
 [Docker下Gitlab部署](../docker_jenkins_gitlab/docker-gitlab.md)
+
+[Jenkins + Pipeline 构建流水线发布](jenkins_using/Jenkins + Pipeline 构建流水线发布.md)
  
 
 
