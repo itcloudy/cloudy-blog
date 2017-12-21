@@ -28,5 +28,5 @@ git采用的是gitlab
 
 ![](images/chapter2/jenkins_plugin_install.png)
 
-### 创建第一个job：game_of_life_default
+### 创建第一个job：`game_of_life_default`
 ![](images/chapter2/game_of_life_default_create.png)

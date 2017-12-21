@@ -18,6 +18,7 @@ $ ssh-keygen -t rsa
 	* Maven Integration plugin
 	* Xcode integration 
 	* Gradle plugin 
+	* Blue Ocean
 * 设置jenkins的jdk和maven
 	* jdk设置
 		![jenkins中java jdk设置](images/docker_jenkins_gitlab/jenkins-jdk.png)
