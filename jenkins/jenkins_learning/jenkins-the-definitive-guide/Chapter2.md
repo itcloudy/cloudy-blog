@@ -28,5 +28,10 @@ git采用的是gitlab
 
 ![](images/chapter2/jenkins_plugin_install.png)
 
-### 创建第一个job：`game_of_life_default`
+* 创建第一个job：`game_of_life_default`
 ![](images/chapter2/game_of_life_default_create.png)
+* 配置源码
+采用的是自己的gitlab仓库，具体参考[docker下gitlab安装](../../../docker/docker-gitlab.md)
+![](images/chapter2/game_of_life_default_git_sopurce.png)
+* 构建触发器设置
+可以根据自己的需要设置不同条件下触发，也可以不设置，通过人工点击触发，在[Gitlab利用webhook实现push代码后触发Jenkins自动构建](../../../jenkins/jenkins_using/gitlab-webhook-jenkins.md)使用了钩子触发，每次push自动触发
