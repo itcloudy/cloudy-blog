@@ -2,5 +2,5 @@
 ## [Jenkins 学习和进阶](jenkins/index.md) ##
 jenkins学习和应用操作记录
 
-## [Docker + Jenkins 环境搭建](docker_jenkins_gitlab/index.md) ##
-docker下jenkins +gitlab搭建集成环境
+## [Docker 学习和进阶](docker_jenkins_gitlab/index.md) ##
+docker学习和应用操作记录
