@@ -96,17 +96,17 @@ ps:若宿机映射到gitlab的端口非80，在gitlab中创建的工程信息中
 
 ## gitlab操作
 ### 创建用户
-![](images/docker_jenkins_gitlab/gitlab_user_create.png)
+![](images/docker_gitlab/gitlab_user_create.png)
 ### 创建群组
-![](images/docker_jenkins_gitlab/gitlab_group_create.png)
+![](images/docker_gitlab/gitlab_group_create.png)
 ### 创建项目
-![](images/docker_jenkins_gitlab/gitlab_project_create.png)
+![](images/docker_gitlab/gitlab_project_create.png)
 ### 项目添加成员
 成员的role permission应为master(未测试多用户，将代码推到gitlab空项目中时需要为master权限)
-![](images/docker_jenkins_gitlab/gitlab_project_master.png)
+![](images/docker_gitlab/gitlab_project_master.png)
 ###　原有代码上传
 未使用80端口需要在地址中指定端口
-![](images/docker_jenkins_gitlab/gitlab_project_code_push.png)
+![](images/docker_gitlab/gitlab_project_code_push.png)
 
  此处使用的操作为:
 <pre><code>
@@ -118,6 +118,6 @@ $ git push -u gitlab --tags
 ps:推送代码时需要输入gitlab的用户名和密码，只需要使用该项目成员为master的用户名和密码，如前面在gitlab中创建的用户jenkins,密码为：jenkinsjenkins
 
 ### 推送结果
-![](images/docker_jenkins_gitlab/gitlab_code_push_result.png)
+![](images/docker_gitlab/gitlab_code_push_result.png)
 
 
