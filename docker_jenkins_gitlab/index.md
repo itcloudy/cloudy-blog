@@ -9,8 +9,7 @@
 ### [Docker安装gitlab](docker-gitlab.md)
 ### [Compose-docker安装](compose-docker.md)
 ### [Docker安装jenkins](docker-jenkins.md)
-### [gitlab利用webhook实现jenkins自动构建](gitlab-webhook-jenkins.md)
-### [jenkins判断文件夹内容是否变化触发构建](jenkins_job_trigger_file_md5.md)
+
 ### [终极](all-compose.md)
 
 
