@@ -16,7 +16,7 @@ git采用的是gitlab
 
 将代码clone到本地，然后推送到gitlab中
 
-[docker下gitlab安装](../docker_jenkins_gitlab/docker-gitlab.md)
+[docker下gitlab安装](../../../docker/docker-gitlab.md)
 
 ### jenkins插件安装
 系统管理->管理插件

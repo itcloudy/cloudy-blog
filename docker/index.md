@@ -1,4 +1,4 @@
-# docker+jenkins+gitlab #
+# docker学习和应用#
 在没有说明的情况下，系统的信息为:64位系统,版本为ubuntu12.04
 
 ### [Ubuntu下Java JDK安装](ubuntu-java-jdk.md)
