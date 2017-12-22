@@ -25,6 +25,7 @@ $ docker run \
 	-d -p 9001:8080 -p 50000:50000  \
 	-v /home/release/docker_jenkins:/var/jenkins_home  \
 	-v /var/run/docker.sock:/var/run/docker.sock  \
+	-v /var/lib/docker:/var/lib/docker \
 	-v $(which docker):/usr/bin/docker \
 	-v /usr/local/jdk1.8.0_111:/usr/local/jdk1.8.0_111 \
 	-v /usr/local/maven3:/usr/local/maven3  \
@@ -56,3 +57,6 @@ Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permiss
 	* Publish Over SSH
 	* CloudBees Docker Build and Publish plugin
 	* File Operations Plugin
+	* Cobertura Plugin
+	* xUnit plugin
+	* Performance plugin
