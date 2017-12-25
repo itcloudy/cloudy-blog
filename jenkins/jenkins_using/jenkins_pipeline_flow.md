@@ -5,6 +5,8 @@ git仓库采用的是gitlab
 ![](images/jenkins_pipeline/gitlab_project_jenkinsfile_create.png)
 * 本地创建代码库
 ![](images/jenkins_pipeline/local_jenkinsfile_repo.png)
+* 使用Pipeline Syntax
+  ![](images/jenkins_pipeline/git_pipeline_syntax.png)
 * 创建文件`Jenkinsfile`,输入下面的内容
 <pre><code>
 node {
@@ -20,8 +22,7 @@ node {
   
 }
 </code></pre>
-* 使用Pipeline Syntax
-  ![](images/jenkins_pipeline/git_pipeline_syntax.png)
+
 * 创建job
   ![](images/jenkins_pipeline/jenkins_pipeline_create.png)
 * Jenkins中pipeline-test中Pipeline设置
