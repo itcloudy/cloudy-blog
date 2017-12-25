@@ -5,6 +5,7 @@
 ### [Ubuntu下Maven安装](ubuntu-maven.md)
 ### [Ubuntu下Docker安装](ubuntu-docker-install.md)
 ### [Centos下Docker安装](centos-docker-install.md)
+### [Centos7阿里云docker镜像](centos-aliyun-docker-install.md)
 ### [Docker私有仓库创建](docker-registry.md)
 ### [Docker安装gitlab](docker-gitlab.md)
 ### [Compose-docker安装](compose-docker.md)

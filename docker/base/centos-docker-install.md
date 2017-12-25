@@ -56,3 +56,5 @@ Share images/docker_jenkins_gitlab, automate workflows, and more with a free Doc
 For more examples and ideas, visit:
  https://docs.docker.com/engine/userguide/
 </code></pre>
+
+*  查看容器的参数:sudo docker inspect 容器id/容器名 `docker inspect hello-world`
