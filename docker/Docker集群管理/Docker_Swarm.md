@@ -7,6 +7,40 @@ Swarm是Docker公司在2014年12月初发布的一套较为简单的工具，用
 
 Docker的Swarm(集群)模式，集成很多工具和特性，比如：跨主机上快速部署服务，服务的快速扩展，集群的管理整合到docker引擎，这意味着可以不可以不使用第三方管理工具。分散设计，声明式的服务模型，可扩展，状态协调处理，多主机网络，分布式的服务发现，负载均衡，滚动更新，安全（通信的加密）等等,下面就来认识下Swarm（对于Swarm管理的详细操作可以参考：https://www.centos.bz/tag/swarm/page/3/）
 ## Swarm架构
+Swarm作为一个管理Docker集群的工具，首先需要将其部署起来，可以单独将Swarm部署于一个节点。另外，自然需要一个Docker集群，集群上每一个节点均安装有Docker。具体的Swarm架构图可以参照下图：
+![](images/docker_swarm/swarm_architecture.png)
+Swarm架构中最主要的处理部分自然是Swarm节点，Swarm管理的对象自然是Docker Cluster，Docker Cluster由多个Docker Node组成，而负责给Swarm发送请求的是Docker Client。
+## Swarm关键概念
+* Swarm
+集群的管理和编排是使用嵌入到docker引擎的SwarmKit，可以在docker初始化时启动swarm模式或者加入已存在的swarm
+ 
+* Node
+一个节点(node)是已加入到swarm的Docker引擎的实例 当部署应用到集群，你将会提交服务定义到管理节点，接着Manager
+管理节点调度任务到worker节点，manager节点还执行维护集群的状态的编排和群集管理功能，worker节点接收并执行来自
+manager节点的任务。通常，manager节点也可以是worker节点，worker节点会报告当前状态给manager节点
+ 
+* 服务（Service）
+服务是要在worker节点上要执行任务的定义，它在工作者节点上执行，当你创建服务的时，你需要指定容器镜像
+ 
+* 任务（Task）
+任务是在docekr容器中执行的命令，Manager节点根据指定数量的任务副本分配任务给worker节点
+ 
+--------------------------------------------------------------------------------------------------------
+docker swarm：集群管理，子命令有init, join, leave, update。（docker swarm --help查看帮助）
+docker service：服务创建，子命令有create, inspect, update, remove, tasks。（docker service--help查看帮助）
+docker node：节点管理，子命令有accept, promote, demote, inspect, update, tasks, ls, rm。（docker node --help查看帮助）
+  
+node是加入到swarm集群中的一个docker引擎实体，可以在一台物理机上运行多个node，node分为：
+manager nodes，也就是管理节点
+worker nodes，也就是工作节点
+  
+* manager node管理节点：执行集群的管理功能，维护集群的状态，选举一个leader节点去执行调度任务。
+* worker node工作节点：接收和执行任务。参与容器集群负载调度，仅用于承载task。
+* service服务：一个服务是工作节点上执行任务的定义。创建一个服务，指定了容器所使用的镜像和容器运行的命令。
+   service是运行在worker nodes上的task的描述，service的描述包括使用哪个docker 镜像，以及在使用该镜像的容器中执行什么命令。
+* task任务：一个任务包含了一个容器及其运行的命令。task是service的执行实体，task启动docker容器并在容器中执行任务。
+
+## Swarm集群部署实例（Swarm Cluster）
 
 * 192.168.21.205      swarm的manager节点      manager-node
 * 192.168.21.176      swarm的node节点         node1
