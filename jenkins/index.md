@@ -10,8 +10,8 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 * [Pipeline学习:Pipeline入门](jenkins_learning/pipeline/Pipeline入门.md)
 
 ## Jenkins使用和进阶
-* [Docker下Jenkins部署](../docker_jenkins_gitlab/docker-jenkins.md)
-* [Docker下Gitlab部署](../docker_jenkins_gitlab/docker-gitlab.md)
+* [Docker下Jenkins部署](../docker/base/docker-jenkins.md)
+* [Docker下Gitlab部署](../docker/base/docker-gitlab.md)
 * [gitlab利用webhook实现jenkins自动构建](gitlab-webhook-jenkins.md)
 * [Jenkins + Pipeline 构建流水线发布](jenkins_using/jenkins_pipeline_flow.md)
 * [Jenkins + Pipeline 分Job实现SpringCloud微服务CI](jenkins_using/jenkins_pipeline_cloud_mult_job.md)
