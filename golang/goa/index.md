@@ -1,5 +1,4 @@
 # golang微服务框架goa
 
-
-## 安装goa和goagen
-<pre><code>go get -u github.com/goadesign/goa/...</code></pre>
+* [goa安装](install.md)
+* [goa 入门](goa_start.md)
