@@ -10,6 +10,7 @@
 ### [Docker安装gitlab](docker-gitlab.md)
 ### [Compose-docker安装](compose-docker.md)
 ### [Docker安装jenkins](docker-jenkins.md)
+### [Docker部署nginx](docker_nginx.md)
 
 ### [终极](all-compose.md)
 
