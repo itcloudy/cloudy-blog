@@ -112,17 +112,17 @@ Swarm Cluster不光只是提供了优秀的高可用性，同时也提供了节�
 
 ## Swarm集群部署实例（Swarm Cluster）
 
-* 192.168.21.205      swarm的manager节点      manager-node
-* 192.168.21.176      swarm的node节点         node1
-* 192.168.21.67       swarm的node节点         node2
+* 机器环境均为centos7
+    * 192.168.21.205      swarm的manager节点      manager-node
+    * 192.168.21.176      swarm的node节点         node1
+    * 192.168.21.67       swarm的node节点         node2
 
-## 设置主机名
+*  设置主机名
+    * 在manager节点上:`$ hostnamectl --static set-hostname manager-node`
+    * 在node1节点上:`$ hostnamectl --static set-hostname node1`
+    * 在node2节点上:`$ hostnamectl --static set-hostname node2`
 
-* 在manager节点上:`$ hostnamectl --static set-hostname manager-node`
-* 在node1节点上:`$ hostnamectl --static set-hostname node1`
-* 在node2节点上:`$ hostnamectl --static set-hostname node2`
-
-## 在三台机器上都要设置hosts，均执行如下命令：
+* 在三台机器上都要设置hosts，均执行如下命令：
 
 <pre><code>
 $  vim /etc/hosts
@@ -131,19 +131,32 @@ $  vim /etc/hosts
 192.168.21.176 node1
 192.168.21.67 node2
 </code></pre>
-## 关闭三台机器上的防火墙。如果开启防火墙，则需要在所有节点的防火墙上依次放行2377/tcp（管理端口）、7946/udp（节点间通信端口）、4789/udp（overlay 网络端口）端口。
+* 关闭三台机器上的防火墙。如果开启防火墙，则需要在所有节点的防火墙上依次放行2377/tcp（管理端口）、7946/udp（节点间通信端口）、4789/udp（overlay 网络端口）端口。
 
 <pre><code>
 $ systemctl disable firewalld.service
 $ systemctl stop firewalld.service
 </code></pre>
-## 获得swarm镜像
+* 分别在manager节点和node节点上安装docker，并下载swarm镜像
+    * 方式一
+
+        [centos下docker安装](../base/centos-docker-install.md)
+    * 方式二
+        <pre><code>
+        $ yum install -y docker
+        $ vim /etc/sysconfig/docker
+            ......
+            OPTIONS='-H 0.0.0.0:2375 -H unix:///var/run/docker.sock'           //在OPTIONS参数项后面的''里添加内容
+        $ systemctl restart docker
+        </code></pre>
+*  获得swarm镜像
 
 <pre><code>sudo docker pull swarm</code></pre>
-## 创建swarm（要保存初始化后token，因为在节点加入时要使用token作为通讯的密钥）
+*  创建swarm（要保存初始化后token，因为在节点加入时要使用token作为通讯的密钥）
+
 在manager-node上操作
 <pre><code>
-$ sdocker swarm init --advertise-addr 192.168.21.205
+[cloudy@manager-node ~]$ docker swarm init --advertise-addr 192.168.21.205
 Swarm initialized: current node (1fqzwbl4qy6stp9aqo6r2j2j3) is now a manager.
 
 To add a worker to this swarm, run the following command:
@@ -152,19 +165,19 @@ To add a worker to this swarm, run the following command:
 
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions
 </code></pre>
-## 查看信息
+* 查看信息
 <pre><code>
 $  docker node ls          
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
 1fqzwbl4qy6stp9aqo6r2j2j3 *   manager-node        Ready               Active              Leader
 </code></pre>
 
-## 添加节点到swarm集群中,分别在node1和node2上执行
+* 添加节点到swarm集群中,分别在node1和node2上执行
 <pre><code>
 $  docker swarm join --token SWMTKN-1-5f5d04wukrj289s835tdxngo82nj5l3w4rwn17rf6litsizs8y-7tob7l24uv2o2blhcj5jflfmf 192.168.21.205:2377
     This node joined a swarm as a worker.
 </code></pre>
-## 查看节点群
+*  查看节点群
 <pre><code>
 [cloudy@manager-node ~]$ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
@@ -172,7 +185,7 @@ ID                            HOSTNAME            STATUS              AVAILABILI
 5nlvs25m2u13jtoa05ciynxd7     node1               Ready               Active              
 6erve3p8x2kf75sealmjdh048     node1               Ready               Active              
 </code></pre>
-## 更改节点的availablity状态
+* 更改节点的availablity状态
 <pre><code>
 [cloudy@node1 ~]$ docker node update --availability drain node1           
 </code></pre>
@@ -232,4 +245,50 @@ Ports:
   Protocol = tcp
   TargetPort = 80
   PublishMode = ingress 
+</code></pre>
+* 查询到哪个节点正在运行该服务。如下该容器被调度到manager-node节点上启动了，然后访问http:/192.168.21.205即可访问这个容器应用（如果调度到其他节点，访问也是如此）
+<pre><code>
+[cloudy@manager-node ~]$ docker service ps my-test
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE          ERROR               PORTS
+nd25lbcuae0m        my-test.1           nginx:latest        manager-node        Running             Running 19 hours ago   
+</code></pre>
+注意，如果上面命令执行后，上面的 STATE 字段中刚开始的服务状态为 Preparing，需要等一会才能变为 Running 状态，其中最费时间的应该是下载镜像的过程。
+
+* 可以通过 docker service scale 命令来设置服务中容器的副本数,动态扩容
+<pre><code>
+[cloudy@manager-node ~]$ docker service scale my-test=5
+my-test scaled to 5
+overall progress: 2 out of 5 tasks 
+1/5: ready     [======================================>            ] 
+2/5: ready     [======================================>            ] 
+3/5: ready     [======================================>            ] 
+4/5: running   [==================================================>] 
+5/5: running   [==================================================>] 
+</code></pre>
+* 和创建服务一样，增加scale数之后，将会创建新的容器，这些新启动的容器也会经历从准备到运行的过程，过一分钟左右，服务应该就会启动完成，这时候可以再来看一下 nginx 服务中的容器
+<pre><code>
+[cloudy@manager-node ~]$ docker service ps my-test
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                ERROR                              PORTS
+uk594mhto0e4        my-test.1           nginx:latest        manager-node        Running             Running 9 minutes ago                                           
+t1xzohvoa7ry         \_ my-test.1       nginx:latest        node2               Shutdown            Rejected 9 minutes ago       "Failed joining ngx_net-endpoi…"   
+kkzny6dc97tb         \_ my-test.1       nginx:latest        node1               Shutdown            Failed 9 minutes ago         "starting container failed: er…"   
+somghqjujcfh         \_ my-test.1       nginx:latest        node1               Shutdown            Failed 9 minutes ago         "starting container failed: er…"   
+xjq8urlh6y5d         \_ my-test.1       nginx:latest        node1               Shutdown            Rejected 9 minutes ago       "Failed joining ngx_net-endpoi…"   
+ybq3vzz7drht        my-test.2           nginx:latest        manager-node        Running             Running about a minute ago                                      
+l0own1706lqa        my-test.3           nginx:latest        manager-node        Running             Running 12 seconds ago                                          
+ubprop1hc3zf         \_ my-test.3       nginx:latest        node2               Shutdown            Failed 23 seconds ago        "starting container failed: er…"   
+wx0ykhtok4o2         \_ my-test.3       nginx:latest        node1               Shutdown            Failed 44 seconds ago        "starting container failed: er…"   
+xgbs24ib46u9         \_ my-test.3       nginx:latest        node1               Shutdown            Failed 54 seconds ago        "starting container failed: er…"   
+tgxx1qu5x2fu         \_ my-test.3       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+njj73z98apji        my-test.4           nginx:latest        manager-node        Running             Running about a minute ago                                      
+nuzxx38ajwln         \_ my-test.4       nginx:latest        node2               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+pwnncyx356z6         \_ my-test.4       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+x95w9pk0nrsd         \_ my-test.4       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+1j6eca9bi3p1         \_ my-test.4       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+tnu542q65p1r        my-test.5           nginx:latest        manager-node        Running             Running about a minute ago                                      
+61gmgkekm2lh         \_ my-test.5       nginx:latest        node2               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+p7ewo7r0d7pt         \_ my-test.5       nginx:latest        node2               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+58aovwwm1p78         \_ my-test.5       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+jc49r1m6wxnc         \_ my-test.5       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
+[cloudy@manager-node ~]$ 
 </code></pre>

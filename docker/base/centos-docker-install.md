@@ -11,7 +11,7 @@ $ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 $ sudo yum-config-manager --add-repo https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo
 $ sudo yum-config-manager --enable docker-ce-edge //最新版本的 Docker CE
 $ sudo yum makecache fast
-$ sudo yum install docker-ce
+$ sudo yum install docker-ce -y
 </code></pre>
 * 启动 Docker CE
 <pre><code>

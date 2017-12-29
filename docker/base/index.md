@@ -11,6 +11,7 @@
 ### [Compose-docker安装](compose-docker.md)
 ### [Docker安装jenkins](docker-jenkins.md)
 ### [Docker部署nginx](docker_nginx.md)
+### [Nexus 搭建maven 私有仓库](docker_nexus.md)
 
 ### [终极](all-compose.md)
 

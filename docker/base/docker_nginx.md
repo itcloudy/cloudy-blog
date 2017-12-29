@@ -47,6 +47,22 @@ http {
 * 删除用户获得配置文件的nginx镜像
  
 * 在/opt下建立文件夹artist, 将前端代码上传到服务器命名文件夹为artist-web，并将nginx.conf 复制到/opt/artist中
+最终的文件结构
+<pre><code>
+[root@localhost artist]# pwd
+/opt/artist
+[root@localhost artist]# tree -L 2
+.
+├── artist-web
+│   ├── index.html
+│   └── static
+├── logs
+│   ├── access.log
+│   └── error.log
+└── nginx.conf
+
+3 directories, 4 files
+</code></pre>
 * 启动容器，指定配置文件
 <pre><code>
 $ docker run --name nginx -dit -p 80:80 -v /opt/artist/artist-web:/usr/share/nginx/html:ro -v /opt/artist/logs:/var/log/nginx -v /opt/artist/nginx.conf:/etc/nginx/nginx.conf:ro  nginx

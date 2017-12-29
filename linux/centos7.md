@@ -19,6 +19,7 @@
 ## Allow root to run any commands anywhere
 root    ALL=(ALL)       ALL
 username ALL=(ALL)ALL  //添加这一行，username为要加入sudoers 的用户
+cloudy    ALL=(ALL)       ALL
 </code></pre>
 
 * 最后记得撤销文件的写权限: `chmod u-w /etc/sudoers`
