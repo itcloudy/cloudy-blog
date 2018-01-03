@@ -42,3 +42,4 @@ Docker下jenkins安装：[Docker安装](../docker_jenkins_gitlab/docker-jenkins.
 * [持续交付实践-pipeline 使用之 MultiBranch Pipeline](https://www.cnblogs.com/cay83/p/7542442.html)
 * [Jenkins中配置多项目SCM](http://blog.csdn.net/itfootball/article/details/45061093)
 * [国外大厨用Docker和Jenkins演示微服务的持续交付](http://www.aboutyun.com/thread-21481-1-1.html)
+* [Jenkins Gitlab持续集成打包平台搭建](http://blog.csdn.net/zgzhaobo/article/details/52002181)

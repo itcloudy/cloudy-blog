@@ -82,11 +82,11 @@ volumes:
 * 运行gitlab 
 <pre><code>
 docker run --detach  --hostname 192.168.21.141 \
-	--publish 9043:443 --publish 9002:80 --publish 9022:22 \
+	--publish 9043:443 --publish 81:80 --publish 9022:22 \
 	--volume /srv/gitlab/config:/etc/gitlab \
 	--volume /srv/gitlab/logs:/var/log/gitlab \
 	--volume /srv/gitlab/data:/var/opt/gitlab \
-	--name gitlab-zh --restart always gitlab_zh
+	--name gitlab --restart always gitlab/gitlab-ce
 </code></pre>
 * 浏览器进入服务
  
