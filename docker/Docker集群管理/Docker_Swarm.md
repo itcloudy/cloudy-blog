@@ -174,16 +174,16 @@
 
 ### 添加节点到swarm集群中,分别在node1和node2上执行
 
-    node2
-    <pre><code>
-    $[cloudy@node2 ~]$   sudo docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
-        This node joined a swarm as a worker.
-    </code></pre>
-    node1
-    <pre><code>
-    $[cloudy@node1 ~]$   sudo docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
-        This node joined a swarm as a worker.
-    </code></pre>
+node2
+<pre><code>
+$[cloudy@node2 ~]$   sudo docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
+    This node joined a swarm as a worker.
+</code></pre>
+node1
+<pre><code>
+$[cloudy@node1 ~]$   sudo docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
+    This node joined a swarm as a worker.
+</code></pre>
 * 查看节点群
     <pre><code>
     [cloudy@manager-node ~]$sudo  docker node ls
@@ -353,23 +353,23 @@
 
 方法一
 
-    参数src为docker卷名称,默认位置在`/var/lib/docker/volumes`下dst表示容器内的路径
-    <pre><code>
-    
-    [cloudy@manager-node ~]$ sudo docker service create  --replicas 2 --mount type=volume,src=myvolume,dst=/cloudy --name test-nginx nginx
-    e2mjpp4vsn2xcm1fvrwxntgyu
-    overall progress: 2 out of 2 tasks 
-    1/2: running   [==================================================>] 
-    2/2: running   [==================================================>] 
-    verify: Service converged 
-    [cloudy@manager-node ~]$ sudo docker service ps  test-nginx
-    ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                    ERROR               PORTS
-    j4ei0pmgrx5v        test-nginx.1        nginx:latest        node2               Running             Running less than a second ago                       
-    18tscnin82bp        test-nginx.2        nginx:latest        manager-node        Running             Running 14 seconds ago                               
-    [cloudy@manager-node ~]$ sudo docker service ls
-    ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
-    e2mjpp4vsn2x        test-nginx          replicated          2/2                 nginx:latest   
-    </code></pre>
+参数src为docker卷名称,默认位置在`/var/lib/docker/volumes`下dst表示容器内的路径
+<pre><code>
+
+[cloudy@manager-node ~]$ sudo docker service create  --replicas 2 --mount type=volume,src=myvolume,dst=/cloudy --name test-nginx nginx
+e2mjpp4vsn2xcm1fvrwxntgyu
+overall progress: 2 out of 2 tasks 
+1/2: running   [==================================================>] 
+2/2: running   [==================================================>] 
+verify: Service converged 
+[cloudy@manager-node ~]$ sudo docker service ps  test-nginx
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                    ERROR               PORTS
+j4ei0pmgrx5v        test-nginx.1        nginx:latest        node2               Running             Running less than a second ago                       
+18tscnin82bp        test-nginx.2        nginx:latest        manager-node        Running             Running 14 seconds ago                               
+[cloudy@manager-node ~]$ sudo docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+e2mjpp4vsn2x        test-nginx          replicated          2/2                 nginx:latest   
+</code></pre>
 * 登录node2节点的test-nginx容器查看
     <pre><code>
     [cloudy@node2 ~]$ sudo docker ps
@@ -413,28 +413,28 @@
 方法二
 
 
-    命令格式：
-    `docker service create --mount type=bind,target=/container_data/,source=/host_data/`
-    其中，参数target表示容器里面的路径，source表示本地硬盘路径
+命令格式：
+`docker service create --mount type=bind,target=/container_data/,source=/host_data/`
+其中，参数target表示容器里面的路径，source表示本地硬盘路径
 
-    需要手动在各个节点创建/opt/web目录，验证replicas为1
-    <pre><code>
-    [cloudy@manager-node ~]$ sudo mkdir /opt/web
-    [cloudy@manager-node ~]$ sudo docker service create --replicas 3 --mount type=bind,target=/usr/share/nginx/html/,source=/opt/web/ --network ngx_net --name web-nginx -p 8880:80 nginx
-    is8b0peq3bhbp04mhr0xxnkaf
-    overall progress: 3 out of 3 tasks 
-    1/3: running   [==================================================>] 
-    2/3: running   [==================================================>] 
-    3/3: running   [==================================================>] 
-    verify: Service converged 
-    [cloudy@manager-node ~]$ sudo docker service ps web-nginx
-    ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                    ERROR               PORTS
-    kkegtdc9lezk        web-nginx.1         nginx:latest        manager-node        Running             Running 14 seconds ago                               
-    xsnf8dt4nzvn        web-nginx.2         nginx:latest        node2               Running             Running less than a second ago                       
-    1oyq89e86gp7        web-nginx.3         nginx:latest        node1               Running             Running less than a second ago  
-    [cloudy@manager-node ~]$ sudo docker service rm  web-nginx
-    [cloudy@manager-node ~]$ sudo docker service create --replicas 1 --mount type=bind,target=/usr/share/nginx/html/,source=/opt/web/ --network ngx_net --name web-nginx -p 8880:80 nginx
-    [cloudy@manager-node ~]$ sudo cat /opt/web/index.html
-    cloude index
-    </code></pre>
+需要手动在各个节点创建/opt/web目录，验证replicas为1
+<pre><code>
+[cloudy@manager-node ~]$ sudo mkdir /opt/web
+[cloudy@manager-node ~]$ sudo docker service create --replicas 3 --mount type=bind,target=/usr/share/nginx/html/,source=/opt/web/ --network ngx_net --name web-nginx -p 8880:80 nginx
+is8b0peq3bhbp04mhr0xxnkaf
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service converged 
+[cloudy@manager-node ~]$ sudo docker service ps web-nginx
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                    ERROR               PORTS
+kkegtdc9lezk        web-nginx.1         nginx:latest        manager-node        Running             Running 14 seconds ago                               
+xsnf8dt4nzvn        web-nginx.2         nginx:latest        node2               Running             Running less than a second ago                       
+1oyq89e86gp7        web-nginx.3         nginx:latest        node1               Running             Running less than a second ago  
+[cloudy@manager-node ~]$ sudo docker service rm  web-nginx
+[cloudy@manager-node ~]$ sudo docker service create --replicas 1 --mount type=bind,target=/usr/share/nginx/html/,source=/opt/web/ --network ngx_net --name web-nginx -p 8880:80 nginx
+[cloudy@manager-node ~]$ sudo cat /opt/web/index.html
+cloude index
+</code></pre>
 打开浏览器地址: [http://192.168.21.178:8880/](http://192.168.21.178:8880/) 即可查看到index.html中的内容
