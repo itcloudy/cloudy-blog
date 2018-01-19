@@ -145,3 +145,11 @@ curl -sSL https://shipyard-project.com/deploy | ACTION=node DISCOVERY=etcd://192
 ![](images/docker_shipyard/docker-shipyard-node.png)
 * 容器查看
 ![](images/docker_shipyard/docker-shipyard-container.png)
+* 可以在shipyard页面里做所添加的节点机里的docker容器进行关闭、删除、重启、重命名、提交新镜像、状态和日志查看能操作，如下：
+![](images/docker_shipyard/docker-shipyard-container-action.png)
+* 添加镜像
+![](images/docker_shipyard/docker-shipyard-image-add.png)
+![](images/docker_shipyard/docker-shipyard-image-add-mysql.png)
+* 容器部署
+![](images/docker_shipyard/docker-shipyard-container-deploy.png)
+
