@@ -31,7 +31,117 @@ Shipyard（github）是建立在docker集群管理工具Citadel之上的可以�
     证书与docker后台进程安全通信。
   
 * rethinkdb
-RethinkDB是一个shipyard项目的一个docker镜像，用来存放账号（account）、引擎（engine）、服务密钥（service key）、
-扩展元数据（extension metadata）等信息，但不会存储任何有关容器或镜像的内容。
+    RethinkDB是一个shipyard项目的一个docker镜像，用来存放账号（account）、引擎（engine）、服务密钥（service key）、
+    扩展元数据（extension metadata）等信息，但不会存储任何有关容器或镜像的内容。
 
 ## Shipyard生态
+    shipyard是由shipyard控制器以及周围生态系统构成，以下按照deploy启动顺序进行介绍（下面几个就是shipyard使用脚本安装后，启动的几个容器名）
+    1）RethinkDB
+    deploy首先启动的就是RethinkDB容器，shipyard采用RethinkDB作为数据库来保存用户等信息
+    
+    2）Discovery
+    为了使用Swarm，我们需要一个外部的密钥值存储群容器，shipyard默认是采用了etcd。
+    
+    3）shipyard_certs
+    证书管理容器，实现证书验证功能
+    
+    4）Proxy
+    默认情况下，Docker引擎只监听Socket，我们可以重新配置引擎使用TLS或者使用一个代理容器，转发请求从TCP到Docker监听的UNIX Socket。
+    
+    5）Swarm Manager
+    Swarm管理器
+    
+    6）Swarm Agent
+    Swarm代理，运行在每个节点上。
+    
+    7）Controller
+    shipyard控制器，Remote API的实现和web的实现。
+## 使用阿里云镜像加速器 
+[阿里云地址](https://cr.console.aliyun.com/#/accelerator)
+## 下载镜像 （这些镜像其实可以不用提前下载，执行下面安装shipyard的命令后就会自动下载这些镜像）
+<pre><code>
+[cloudy@manager-node ~]$ docker pull alpine
+[cloudy@manager-node ~]$ docker pull library/rethinkdb
+[cloudy@manager-node ~]$ docker pull microbox/etcd
+[cloudy@manager-node ~]$ docker pull shipyard/docker-proxy
+[cloudy@manager-node ~]$ docker pull swarm
+[cloudy@manager-node ~]$ docker pull shipyard/shipyard
+</code></pre>
+## 安装shipyard
+    shipyard的部署非常简单，官方提供了在线的脚本通过命令进行安装，使用"curl -s https://shipyard-project.com/deploy | bash -s" 命令进行安装即可。
+    deploy实际上是一个shell脚本，实现docker run启动shipyard依赖的容器。如果觉得每次通过curl启动不方便也可以将这个脚本下载到本地磁盘进行操作。
+    启动完成以后，在浏览器输入http://192.168.21.178:8080即可访问，默认用户名为admin密码为shipyard。
+    注意：由于deploy在执行时需要访问/var/run/docker.sock，所以需要root权限，或者为该文件添加权限。
+<pre><code>    
+curl -s https://shipyard-project.com/deploy | bash -s
+.........
+.........
+Shipyard available at http://192.168.21.178:8080
+Username: admin Password: shipyard
+</code></pre>
+
+打开浏览器
+![](images/docker_shipyard/docker-shipyard-home.png)
+
+	
+注意一下：
+    1）最好关闭防火墙
+    2）添加 Node 节点可能失败，可以进行多次尝试
+    
+    ---------------------------------------------------------------------------------------------------------------
+    上面安装shipyard的脚本是英文版的，其实还有中文版的脚本，下面两种都可以使用：
+    
+    1）安装shipyard
+    # curl -sSL http://dockerclub.net/public/script/deploy |  bash -s                      ==> 中文版
+    # curl -sSL https://shipyard-project.com/deploy | bash -s                              ==> 英文版
+    
+    2）添加node节点
+    # curl -sSL http://dockerclub.net/public/script/deploy | ACTION=node DISCOVERY=etcd://<shipyard部署机ip> bash -s                ==> 中文版
+    # curl -sSL https://shipyard-project.com/deploy | ACTION=node DISCOVERY=etcd://<shipyard部署机ip> bash -s                       ==> 英文版
+    
+    3）删除shipyard（在节点机上执行，就会将节点从shipyard管理里踢出）
+    # curl http://dockerclub.net/public/script/deploy | ACTION=remove bash -s                   ==> 中文版
+    # curl -sSL https://shipyard-project.com/deploy | ACTION=remove bash -s                     ==> 英文版
+    ---------------------------------------------------------------------------------------------------------------
+    
+    其他：
+    1）如果想将安装重新来一遍
+    [cloudy@manager-node ~]$ for i in `docker ps |sed '1d'| awk '{print $NF}'`;do docker rm -f $i; done
+    [cloudy@manager-node ~]$ docker stop `docker ps -a -q`
+    [cloudy@manager-node ~]$ docker rm `docker ps -a -q`
+    [cloudy@manager-node ~]$ curl -s https://shipyard-project.com/deploy | bash -s
+    
+    2）停止运行镜像
+    [cloudy@manager-node ~]$ docker stop shipyard-proxy shipyard-certs shipyard-discovery shipyard-rethinkdb shipyard-swarm-agent shipyard-swarm-manager shipyard-controller
+    
+    3）启动运行的镜像
+    [cloudy@manager-node ~]$ docker start shipyard-proxy shipyard-certs shipyard-discovery shipyard-rethinkdb shipyard-swarm-agent shipyard-swarm-manager shipyard-controller
+    
+    4）查看运行的docker进程
+   [cloudy@manager-node ~]$ docker ps
+        CONTAINER ID        IMAGE                          COMMAND                  CREATED             STATUS              PORTS                                            NAMES
+        b3c5ae304fff        shipyard/shipyard:latest       "/bin/controller --d…"   8 minutes ago       Up 8 minutes        0.0.0.0:8080->8080/tcp                           shipyard-controller
+        e480d34f7ae3        swarm:latest                   "/swarm j --addr 192…"   8 minutes ago       Up 8 minutes        2375/tcp                                         shipyard-swarm-agent
+        1d9c3f452dc2        swarm:latest                   "/swarm m --replicat…"   8 minutes ago       Up 8 minutes        2375/tcp                                         shipyard-swarm-manager
+        57fc73fcce53        shipyard/docker-proxy:latest   "/usr/local/bin/run"     8 minutes ago       Up 8 minutes        0.0.0.0:2375->2375/tcp                           shipyard-proxy
+        aaf8709c96ee        alpine                         "sh"                     8 minutes ago       Up 8 minutes                                                         shipyard-certs
+        3d2ab13aa20d        microbox/etcd:latest           "/bin/etcd -addr 192…"   8 minutes ago       Up 8 minutes        0.0.0.0:4001->4001/tcp, 0.0.0.0:7001->7001/tcp   shipyard-discovery
+        1afe6c9e9482        rethinkdb                      "rethinkdb --bind all"   8 minutes ago       Up 8 minutes        8080/tcp, 28015/tcp, 29015/tcp                   shipyard-rethinkdb
+        d92455688d37        nginx:latest                   "nginx -g 'daemon of…"   25 minutes ago      Up 25 minutes       80/tcp                                           web-nginx.1.dgdww80qjlxdpqhbxgdje4vl4
+            
+    5）使用自定义shipyard镜像镜像
+    [cloudy@manager-node ~]$ curl -sSL https://shipyard-project.com/deploy | IMAGE=shipyard/shipyard:test bash -s
+
+## 添加node节点的操作
+添加192.168.21.39和192.168.21.158 作为节点。那么就需要分别在这两台台机器上执行下面的命令：
+<pre><code>
+curl -sSL https://shipyard-project.com/deploy | ACTION=node DISCOVERY=etcd://192.168.21.178:4001 bash -s
+</code></pre>
+ 
+1）上面命令中的192.168.21.178是shipyard的部署机的ip；
+2）192.168.21.178机器的iptables防火墙要打开4001端口。最好是关闭防火墙
+  
+* 节点查看
+![](images/docker_shipyard/docker-shipyard-node.png)
+* 容器查看
+![](images/docker_shipyard/docker-shipyard-container.png)

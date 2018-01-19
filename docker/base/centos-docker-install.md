@@ -58,3 +58,21 @@ For more examples and ideas, visit:
 </code></pre>
 
 *  查看容器的参数:sudo docker inspect 容器id/容器名 `docker inspect hello-world`
+
+ps: centos7下docker的配置文件路径为：`/usr/lib/systemd/system/docker.service`
+
+配置镜像加速器
+
+    针对Docker客户端版本大于1.10.0的用户
+
+    您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器：
+
+    sudo mkdir -p /etc/docker
+    sudo tee /etc/docker/daemon.json <<-'EOF'
+    {
+      "registry-mirrors": ["https://21dcc9l1.mirror.aliyuncs.com"]
+    }
+    EOF
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
+
