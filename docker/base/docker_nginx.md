@@ -3,69 +3,14 @@
 
 * 拉取镜像
 <pre><code>$ docker pull nginx</code></pre>
-* nginx配置文件修改
-针对docker可以运行一个nginx镜像，然后从中获得配置文件
+* 启动容器
 <pre><code>
-$  docker run -dit --name nginx nginx
-$ docker cp nginx:/etc/nginx/nginx.conf nginx.conf
+$ docker run --name artistnginx -dit -p 83:80 \
+-v $(pwd)/artist_nginx/web:/usr/share/nginx/html \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v  $(pwd)/artist_nginx/logs:/var/log/nginx \
+nginx 
 </code></pre>
-获得配置文件如下
-<pre><code>
-
-user  nginx;
-worker_processes  1;
-
-error_log  /var/log/nginx/error.log warn;
-pid        /var/run/nginx.pid;
-
-
-events {
-    worker_connections  1024;
-}
-
-
-http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
-
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile        on;
-    #tcp_nopush     on;
-
-    keepalive_timeout  65;
-
-    #gzip  on;
-
-    include /etc/nginx/conf.d/*.conf;
-}
-</code></pre>
-* 删除用户获得配置文件的nginx镜像
  
-* 在/opt下建立文件夹artist, 将前端代码上传到服务器命名文件夹为artist-web，并将nginx.conf 复制到/opt/artist中
-最终的文件结构
-<pre><code>
-[root@localhost artist]# pwd
-/opt/artist
-[root@localhost artist]# tree -L 2
-.
-├── artist-web
-│   ├── index.html
-│   └── static
-├── logs
-│   ├── access.log
-│   └── error.log
-└── nginx.conf
-
-3 directories, 4 files
-</code></pre>
-* 启动容器，指定配置文件
-<pre><code>
-$ docker run --name nginx -dit -p 80:80 -v /opt/artist/artist-web:/usr/share/nginx/html:ro -v /opt/artist/logs:/var/log/nginx -v /opt/artist/nginx.conf:/etc/nginx/nginx.conf:ro  nginx
-</code></pre>
-
-
+* ps
+在与jenkins集成的过程中，宿机文件用户为root，导致jenkins使用	SSH Publishers时无法将文件push到`$(pwd)/artist_nginx/web`中,修改文件夹的权限即可，push完成后需重启artistnginx

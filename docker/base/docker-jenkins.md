@@ -10,6 +10,7 @@ $ docker run -u root -dit -p 82:8080 --name jenkinsci \
 -v $(pwd)/docker_jenkinsci:/var/jenkins_home \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v /usr/local/maven3.5.2:/usr/local/maven3.5.2  \
+-v /usr/local/node-v8.4.0/bin:/user/local/node-v8.4.0/bin \
 jenkinsci/jenkins
 </code></pre>
 * 安装插件
@@ -34,3 +35,10 @@ Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permiss
 若命令中没有添加-d，表示未在后台运行，若启动成功会打印出初始密码，复制初始密码
 
 后台运行时的密码在 /your/home/docker_jenkins/secrets/initialAdminPassword中
+
+
+ps:docker jenkins的时区和本地不一致时需要修改时区
+<pre><code>
+ docker exec -it jenkinsci bash
+ echo Asia/Shanghai > /etc/timezone 
+ </code></pre>

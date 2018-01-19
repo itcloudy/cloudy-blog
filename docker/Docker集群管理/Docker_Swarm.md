@@ -113,9 +113,9 @@ Swarm Cluster不光只是提供了优秀的高可用性，同时也提供了节�
 ## Swarm集群部署实例（Swarm Cluster）
 
 * 机器环境均为centos7
-    * 192.168.21.205      swarm的manager节点      manager-node
-    * 192.168.21.176      swarm的node节点         node1
-    * 192.168.21.67       swarm的node节点         node2
+    * 192.168.21.178      swarm的manager节点      manager-node
+    * 192.168.21.39      swarm的node节点         node1
+    * 192.168.21.158       swarm的node节点         node2
 
 *  设置主机名
     * 在manager节点上:`$ hostnamectl --static set-hostname manager-node`
@@ -127,9 +127,9 @@ Swarm Cluster不光只是提供了优秀的高可用性，同时也提供了节�
 <pre><code>
 $  vim /etc/hosts
 ......
-192.168.21.205 manager-node
-192.168.21.176 node1
-192.168.21.67 node2
+192.168.21.178 manager-node
+192.168.21.39 node1
+192.168.21.158 node2
 </code></pre>
 * 关闭三台机器上的防火墙。如果开启防火墙，则需要在所有节点的防火墙上依次放行2377/tcp（管理端口）、7946/udp（节点间通信端口）、4789/udp（overlay 网络端口）端口。
 
@@ -156,14 +156,14 @@ $ systemctl stop firewalld.service
 
 在manager-node上操作
 <pre><code>
-[cloudy@manager-node ~]$ docker swarm init --advertise-addr 192.168.21.205
-Swarm initialized: current node (1fqzwbl4qy6stp9aqo6r2j2j3) is now a manager.
+[cloudy@manager-node ~]$ sudo  docker swarm init --advertise-addr 192.168.21.178
+Swarm initialized: current node (rb9u0ee0698m1pnyjym4sd8b3) is now a manager.
 
 To add a worker to this swarm, run the following command:
 
-    docker swarm join --token SWMTKN-1-5f5d04wukrj289s835tdxngo82nj5l3w4rwn17rf6litsizs8y-7tob7l24uv2o2blhcj5jflfmf 192.168.21.205:2377
+    docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
 
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 </code></pre>
 * 查看信息
 <pre><code>
@@ -173,28 +173,39 @@ ID                            HOSTNAME            STATUS              AVAILABILI
 </code></pre>
 
 * 添加节点到swarm集群中,分别在node1和node2上执行
+
+node2
 <pre><code>
-$  docker swarm join --token SWMTKN-1-5f5d04wukrj289s835tdxngo82nj5l3w4rwn17rf6litsizs8y-7tob7l24uv2o2blhcj5jflfmf 192.168.21.205:2377
+$[cloudy@node2 ~]$   sudo docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
     This node joined a swarm as a worker.
 </code></pre>
-*  查看节点群
+node1
 <pre><code>
-[cloudy@manager-node ~]$ docker node ls
+$[cloudy@node1 ~]$   sudo docker swarm join --token SWMTKN-1-4k7spmjchlkc5n1xzgfpt528c71kt76fm6lx223z8xhsl4hpmc-8gqb5fyi8a71wuncm5tnq8cmc 192.168.21.178:2377
+    This node joined a swarm as a worker.
+</code></pre>
+* 查看节点群
+<pre><code>
+[cloudy@manager-node ~]$sudo  docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
 1fqzwbl4qy6stp9aqo6r2j2j3 *   manager-node        Ready               Active              Leader
 5nlvs25m2u13jtoa05ciynxd7     node1               Ready               Active              
 6erve3p8x2kf75sealmjdh048     node1               Ready               Active              
 </code></pre>
-* 更改节点的availablity状态
+* 更改节点的availablity状态 下线
 <pre><code>
-[cloudy@node1 ~]$ docker node update --availability drain node1           
+[cloudy@node1 ~]$ sudo docker node update --availability drain node1           
+</code></pre>
+* 更改节点的availablity状态 上线
+<pre><code>
+[cloudy@node1 ~]$ sudo docker node update --availability active node1           
 </code></pre>
 ## 在Swarm中部署服务（这里以nginx服务为例）
 * 启动容器之前，先来创建一个覆盖网络，用来保证在不同主机上的容器网络互通的网络模式
 <pre><code>
-[cloudy@manager-node ~]$ docker network create -d overlay ngx_net
+[cloudy@manager-node ~]$sudo  docker network create -d overlay ngx_net
 z5jpu57nkrltq3rp1dbprizs4
-[cloudy@manager-node ~]$ docker network ls
+[cloudy@manager-node ~]$ sudo docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 433588ffc6b7        bridge              bridge              local
 40dfe98c9a25        docker_gwbridge     bridge              local
@@ -208,15 +219,15 @@ d4579190e245        none                null                local
 其中，--replicas 参数指定服务由几个实例组成。
 注意：不需要提前在节点上下载nginx镜像，这个命令执行后会自动下载这个容器镜像（比如此处创建tomcat容器，就将下面命令中的镜像改为tomcat镜像）。
 <pre><code>
-[cloudy@manager-node ~]$  docker service create --replicas 1 --network ngx_net --name my-test -p 80:80 nginx
+[cloudy@manager-node ~]$ sudo  docker service create --replicas 1 --network ngx_net --name my-test -p 80:80 nginx
 </code></pre>
 * 查看正在运行服务的列表
 <pre><code>
-[cloudy@manager-node ~]$ docker service ls
+[cloudy@manager-node ~]$sudo  docker service ls
 </code></pre>
 * 查询Swarm中服务的信息
 <pre><code>
-[cloudy@manager-node ~]$ docker service inspect --pretty my-test
+[cloudy@manager-node ~]$sudo docker service inspect --pretty my-test
 
 ID:             n7v8y8y3d8i58oa300kqsa6vb
 Name:           my-test
@@ -248,7 +259,7 @@ Ports:
 </code></pre>
 * 查询到哪个节点正在运行该服务。如下该容器被调度到manager-node节点上启动了，然后访问http:/192.168.21.205即可访问这个容器应用（如果调度到其他节点，访问也是如此）
 <pre><code>
-[cloudy@manager-node ~]$ docker service ps my-test
+[cloudy@manager-node ~]$ sudo docker service ps my-test
 ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE          ERROR               PORTS
 nd25lbcuae0m        my-test.1           nginx:latest        manager-node        Running             Running 19 hours ago   
 </code></pre>
@@ -256,7 +267,7 @@ nd25lbcuae0m        my-test.1           nginx:latest        manager-node        
 
 * 可以通过 docker service scale 命令来设置服务中容器的副本数,动态扩容
 <pre><code>
-[cloudy@manager-node ~]$ docker service scale my-test=5
+[cloudy@manager-node ~]$sudo  docker service scale my-test=5
 my-test scaled to 5
 overall progress: 2 out of 5 tasks 
 1/5: ready     [======================================>            ] 
@@ -267,28 +278,42 @@ overall progress: 2 out of 5 tasks
 </code></pre>
 * 和创建服务一样，增加scale数之后，将会创建新的容器，这些新启动的容器也会经历从准备到运行的过程，过一分钟左右，服务应该就会启动完成，这时候可以再来看一下 nginx 服务中的容器
 <pre><code>
-[cloudy@manager-node ~]$ docker service ps my-test
-ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE                ERROR                              PORTS
-uk594mhto0e4        my-test.1           nginx:latest        manager-node        Running             Running 9 minutes ago                                           
-t1xzohvoa7ry         \_ my-test.1       nginx:latest        node2               Shutdown            Rejected 9 minutes ago       "Failed joining ngx_net-endpoi…"   
-kkzny6dc97tb         \_ my-test.1       nginx:latest        node1               Shutdown            Failed 9 minutes ago         "starting container failed: er…"   
-somghqjujcfh         \_ my-test.1       nginx:latest        node1               Shutdown            Failed 9 minutes ago         "starting container failed: er…"   
-xjq8urlh6y5d         \_ my-test.1       nginx:latest        node1               Shutdown            Rejected 9 minutes ago       "Failed joining ngx_net-endpoi…"   
-ybq3vzz7drht        my-test.2           nginx:latest        manager-node        Running             Running about a minute ago                                      
-l0own1706lqa        my-test.3           nginx:latest        manager-node        Running             Running 12 seconds ago                                          
-ubprop1hc3zf         \_ my-test.3       nginx:latest        node2               Shutdown            Failed 23 seconds ago        "starting container failed: er…"   
-wx0ykhtok4o2         \_ my-test.3       nginx:latest        node1               Shutdown            Failed 44 seconds ago        "starting container failed: er…"   
-xgbs24ib46u9         \_ my-test.3       nginx:latest        node1               Shutdown            Failed 54 seconds ago        "starting container failed: er…"   
-tgxx1qu5x2fu         \_ my-test.3       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-njj73z98apji        my-test.4           nginx:latest        manager-node        Running             Running about a minute ago                                      
-nuzxx38ajwln         \_ my-test.4       nginx:latest        node2               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-pwnncyx356z6         \_ my-test.4       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-x95w9pk0nrsd         \_ my-test.4       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-1j6eca9bi3p1         \_ my-test.4       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-tnu542q65p1r        my-test.5           nginx:latest        manager-node        Running             Running about a minute ago                                      
-61gmgkekm2lh         \_ my-test.5       nginx:latest        node2               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-p7ewo7r0d7pt         \_ my-test.5       nginx:latest        node2               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-58aovwwm1p78         \_ my-test.5       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-jc49r1m6wxnc         \_ my-test.5       nginx:latest        node1               Shutdown            Failed about a minute ago    "starting container failed: er…"   
-[cloudy@manager-node ~]$ 
+[cloudy@manager-node ~]$ sudo docker service ps my-test
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE          ERROR               PORTS
+qcc503gwyavy        my-test.1           nginx:latest        node1               Running             Running 15 hours ago                       
+t35h6xumxo6f        my-test.2           nginx:latest        manager-node        Running             Running 15 hours ago                       
+jm4eslwap0zw        my-test.3           nginx:latest        node2               Running             Running 15 hours ago                       
+roc1kcr0ayu6        my-test.4           nginx:latest        node2               Running             Running 15 hours ago                       
+jlzfeqhab3gx        my-test.5           nginx:latest        node1               Running             Running 15 hours ago   
 </code></pre>
+* 除了上面使用scale进行容器的扩容或缩容之外，还可以使用docker service update 命令。 可对 服务的启动 参数 进行 更新/修改。
+<pre><code>
+[cloudy@manager-node ~]$ sudo docker service update --replicas 3 my-test
+my-test
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service converged 
+[cloudy@manager-node ~]$ sudo docker service ps my-test
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE          ERROR               PORTS
+qcc503gwyavy        my-test.1           nginx:latest        node1               Running             Running 15 hours ago                       
+t35h6xumxo6f        my-test.2           nginx:latest        manager-node        Running             Running 15 hours ago                       
+jm4eslwap0zw        my-test.3           nginx:latest        node2               Running             Running 15 hours ago                       
+[cloudy@manager-node ~]$ sudo docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+qpi2xl4b718z        my-test             replicated          3/3                 nginx:latest        *:80->80/tcp
+</code></pre>
+* docker service update 命令，也可用于直接 升级 镜像等。
+<pre><code>
+[cloudy@manager-node ~]$ sudo docker service update --image nginx:new my-test
+my-test
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service converged 
+</code></pre>
+* 删除容器服务
+[cloudy@manager-node ~]# docker service --help       //查看帮助
+[cloudy@manager-node ~]# docker service rm my-test    //这样就会把所有节点上的所有容器（task任务实例）全部删除了
