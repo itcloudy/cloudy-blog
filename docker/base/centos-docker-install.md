@@ -19,6 +19,8 @@ $ sudo systemctl enable docker
 $ sudo systemctl start docker
 </code></pre>
 * 建立 docker 用户组
+
+当前用户添加到docker用户组之后，可以直接使用`docker`命令，不需要添加`sudo`
 <pre><code>
 $ sudo groupadd docker
 $ sudo usermod -aG docker $USER
