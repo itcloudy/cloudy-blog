@@ -35,15 +35,15 @@
 * 日志查看
     <pre><code>[cloudy@manager-node ~]$ sudo docker logs -f <CONTAINER_ID></code></pre>
 * 浏览器查看
- ![](images/home.png)
+ ![](images/install/home.png)
 * 添加主机
-     ![](images/add_server_host.png)
+     ![](images/install/add_server_host.png)
      点击确认
-     ![](images/rancher_node_action.png)
+     ![](images/install/rancher_node_action.png)
      复制图中的内容到另外两台机器(192.168.21.39,192.168.21.158,已经安装好docker,版本和178一直)上运行
      <pre><code>[cloudy@node1 ~]$  sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://192.168.21.178:8080/v1/scripts/59AEF3D2DEB34F9AE163:1514678400000:QMx7R7k6EvDuygIqoCts7FRObI</code></pre>
-     ![](images/add_host_result.png)
+     ![](images/install/add_host_result.png)
 * 添加容器
-![](images/add_container_mysql.png)
-![](images/add_container_mysql_result.png)
-![](images/add_container_mysql_node1_result.png)
+![](images/install/add_container_mysql.png)
+![](images/install/add_container_mysql_result.png)
+![](images/install/add_container_mysql_node1_result.png)
